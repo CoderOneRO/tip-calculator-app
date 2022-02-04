@@ -1,4 +1,51 @@
-function App() {
+import { useState, useEffect } from 'react';
+
+function App() { 
+  const [bill, setBill] = useState(null);
+  const [tip, setTip] = useState(null);
+  const [nrOfPeople, setNrOfPeople] = useState(null);
+  const [tipAmount, setTipAmount] = useState(0.00);
+  const [total, setTotal] = useState(0.00);
+
+  const handleClick = (e) => {
+    setTip(parseInt(e.target.value));
+  }
+
+  const handleBillChange = (e) => {
+    setBill(parseInt(e.target.value));
+  }
+
+  const handlePeopleChange = (e) => {
+    setNrOfPeople(parseInt(e.target.value));
+  }
+
+  const handleCustomChange = (e) => {
+    setTip(parseInt(e.target.value));
+  }
+
+  const calculateTotal = () => {
+    if ((bill !== 0) && (nrOfPeople !== 0)) {
+      let onePercent = bill / 100;
+      let tipPercent = onePercent * tip;
+      setTipAmount((tipPercent / nrOfPeople).toFixed(2));
+      let result = bill + tipPercent;
+      let finalResult = result / nrOfPeople;
+      setTotal(finalResult.toFixed(2));
+    }
+  }
+
+  const handleReset = () => {
+    setBill("");
+    setTip("");
+    setNrOfPeople("");
+    setTipAmount(0);
+    setTotal(0);
+};
+
+  useEffect(() => {
+    calculateTotal();
+  }, [tip])
+
   return (
     <div className="App">
       <div className="logo">
@@ -9,24 +56,26 @@ function App() {
           <span>
             <h5>Bill</h5>
             <form>
-              <input type="text" className="input-long"></input>
+              <input type="text" className="input-long" id="dollar"  value={bill} onChange={(e) => handleBillChange(e)}></input>
             </form>
           </span>
           <span>
             <h5>Select Tip %</h5>
             <div className="buttons">
-              <button className="button">5%</button>
-              <button className="button">10%</button>
-              <button className="button">15%</button>
-              <button className="button">25%</button>
-              <button className="button">50%</button>
-              <button className="button-custom">Custom</button>
+              <button className="button" value="5" onClick={(e) => handleClick(e)}>5%</button>
+              <button className="button" value="10" onClick={(e) => handleClick(e)}>10%</button>
+              <button className="button" value="15" onClick={(e) => handleClick(e)}>15%</button>
+              <button className="button" value="25" onClick={(e) => handleClick(e)}>25%</button>
+              <button className="button" value="50" onClick={(e) => handleClick(e)}>50%</button>
+              <form>
+                <input type="text" className="input-custom" onChange={(e) => handleCustomChange(e)} placeholder="Custom"></input>
+              </form>
             </div>
           </span>
           <span>
             <h5>Number of people</h5>
             <form>
-              <input type="text" className="input-long"></input>
+              <input type="text" className="input-long" id="person" value={nrOfPeople} onChange={(e) => handlePeopleChange(e)}></input>
             </form>
           </span>
         </div>
@@ -37,17 +86,17 @@ function App() {
                 <h5>Tip Amount</h5>
                 <h6>/ person</h6>
               </span>
-              <h1 className="payment">4.27</h1>
+              <h1 className="payment"><svg className="dollar" xmlns="http://www.w3.org/2000/svg" width="13" height="20"><path fill="#9EBBBD" d="M6.016 16.328v-1.464c1.232-.08 2.22-.444 2.964-1.092.744-.648 1.116-1.508 1.116-2.58v-.144c0-.992-.348-1.772-1.044-2.34-.696-.568-1.708-.932-3.036-1.092V4.184c.56.144 1.012.4 1.356.768.344.368.516.816.516 1.344v.288h1.824v-.432c0-.448-.088-.876-.264-1.284a3.783 3.783 0 00-.744-1.116A4.251 4.251 0 007.54 2.9a5.324 5.324 0 00-1.524-.492V.872H4.288V2.36a5.532 5.532 0 00-1.416.324c-.448.168-.84.392-1.176.672-.336.28-.604.616-.804 1.008-.2.392-.3.844-.3 1.356v.144c0 .96.316 1.708.948 2.244.632.536 1.548.884 2.748 1.044v3.912c-.704-.16-1.248-.472-1.632-.936-.384-.464-.576-1.08-.576-1.848v-.288H.256v.576c0 .464.08.924.24 1.38.16.456.404.88.732 1.272.328.392.744.728 1.248 1.008s1.108.476 1.812.588v1.512h1.728zM4.288 7.424c-.688-.128-1.164-.332-1.428-.612-.264-.28-.396-.644-.396-1.092 0-.464.176-.832.528-1.104.352-.272.784-.448 1.296-.528v3.336zm1.728 5.712V9.344c.768.128 1.328.328 1.68.6.352.272.528.688.528 1.248 0 .544-.196.984-.588 1.32-.392.336-.932.544-1.62.624z"/></svg>{tipAmount}</h1>
             </div>
             <div className="total">
               <span>
                 <h5>Total</h5>
                 <h6>/ person</h6>
               </span>
-              <h1 className="payment">32.79</h1>
+              <h1 className="payment"><svg className="dollar" xmlns="http://www.w3.org/2000/svg" width="13" height="20"><path fill="#9EBBBD" d="M6.016 16.328v-1.464c1.232-.08 2.22-.444 2.964-1.092.744-.648 1.116-1.508 1.116-2.58v-.144c0-.992-.348-1.772-1.044-2.34-.696-.568-1.708-.932-3.036-1.092V4.184c.56.144 1.012.4 1.356.768.344.368.516.816.516 1.344v.288h1.824v-.432c0-.448-.088-.876-.264-1.284a3.783 3.783 0 00-.744-1.116A4.251 4.251 0 007.54 2.9a5.324 5.324 0 00-1.524-.492V.872H4.288V2.36a5.532 5.532 0 00-1.416.324c-.448.168-.84.392-1.176.672-.336.28-.604.616-.804 1.008-.2.392-.3.844-.3 1.356v.144c0 .96.316 1.708.948 2.244.632.536 1.548.884 2.748 1.044v3.912c-.704-.16-1.248-.472-1.632-.936-.384-.464-.576-1.08-.576-1.848v-.288H.256v.576c0 .464.08.924.24 1.38.16.456.404.88.732 1.272.328.392.744.728 1.248 1.008s1.108.476 1.812.588v1.512h1.728zM4.288 7.424c-.688-.128-1.164-.332-1.428-.612-.264-.28-.396-.644-.396-1.092 0-.464.176-.832.528-1.104.352-.272.784-.448 1.296-.528v3.336zm1.728 5.712V9.344c.768.128 1.328.328 1.68.6.352.272.528.688.528 1.248 0 .544-.196.984-.588 1.32-.392.336-.932.544-1.62.624z"/></svg>{total}</h1>
             </div>
           </span>
-          <button className="reset">RESET</button>
+          <button className="reset" onClick={handleReset}>RESET</button>
         </div>
       </div>
     </div>
