@@ -23,17 +23,6 @@ function App() {
     setTip(parseInt(e.target.value));
   }
 
-  const calculateTotal = () => {
-    if ((bill !== 0) && (nrOfPeople !== 0)) {
-      let onePercent = bill / 100;
-      let tipPercent = onePercent * tip;
-      setTipAmount((tipPercent / nrOfPeople).toFixed(2));
-      let result = bill + tipPercent;
-      let finalResult = result / nrOfPeople;
-      setTotal(finalResult.toFixed(2));
-    }
-  }
-
   const handleReset = () => {
     setBill("");
     setTip("");
@@ -43,6 +32,16 @@ function App() {
 };
 
   useEffect(() => {
+    const calculateTotal = () => {
+      if ((bill !== 0) && (nrOfPeople !== 0)) {
+        let onePercent = bill / 100;
+        let tipPercent = onePercent * tip;
+        setTipAmount((tipPercent / nrOfPeople).toFixed(2));
+        let result = bill + tipPercent;
+        let finalResult = result / nrOfPeople;
+        setTotal(finalResult.toFixed(2));
+      }
+    }
     calculateTotal();
   }, [tip])
 
