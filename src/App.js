@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 
 function App() { 
-  const [bill, setBill] = useState(null);
-  const [tip, setTip] = useState(null);
-  const [nrOfPeople, setNrOfPeople] = useState(null);
+  const [bill, setBill] = useState("");
+  const [tip, setTip] = useState("");
+  const [nrOfPeople, setNrOfPeople] = useState("");
   const [tipAmount, setTipAmount] = useState(0.00);
   const [total, setTotal] = useState(0.00);
 
