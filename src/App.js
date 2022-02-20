@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 function App() { 
   const [bill, setBill] = useState("");
@@ -31,19 +31,20 @@ function App() {
     setTotal(0);
 };
 
-  useEffect(() => {
-    const calculateTotal = () => {
-      if ((bill !== 0) && (nrOfPeople !== 0)) {
-        let onePercent = bill / 100;
-        let tipPercent = onePercent * tip;
-        setTipAmount((tipPercent / nrOfPeople).toFixed(2));
-        let result = bill + tipPercent;
-        let finalResult = result / nrOfPeople;
-        setTotal(finalResult.toFixed(2));
-      }
+  const calculateTotal = useCallback(() => {
+    if ((bill !== 0) && (nrOfPeople !== 0)) {
+      let onePercent = bill / 100;
+      let tipPercent = onePercent * tip;
+      setTipAmount((tipPercent / nrOfPeople).toFixed(2));
+      let result = bill + tipPercent;
+      let finalResult = result / nrOfPeople;
+      setTotal(finalResult.toFixed(2));
     }
+  }, [bill, nrOfPeople, tip])
+
+  useEffect(() => {
     calculateTotal();
-  }, [tip])
+  }, [calculateTotal])
 
   return (
     <div className="App">
